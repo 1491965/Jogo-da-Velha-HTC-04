@@ -70,9 +70,11 @@
      display: flex;
      align-items: center;
      padding: 4px;
+     position: relative;
+     cursor: pointer;
  }
  .switcher:hover .switcher-ball {
-
+right: 4px;
  }
 
  .switcher-ball {
@@ -80,4 +82,8 @@
     height: 24px;
     border-radius: 50%;
     background-color: #ffffff;
+    position: absolute;
+    right: 20px;
+    transition: 300ms;
+    
  }
