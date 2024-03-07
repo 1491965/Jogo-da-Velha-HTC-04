@@ -1,5 +1,5 @@
 const game = {
-currentMove: 'X'
+    currentMove: 'X'
 
 }
 
@@ -22,30 +22,47 @@ function toggleCorrentMove() {
 
 function verifyFields(firstField, secondField, thirdField) {
     const $fieldList = document.querySelectorAll('.scenary-field-big')
-   const hasWinner =$fieldList[firstField].textContent != ''
-   && $fieldList[firstField].textContent == $fieldList[secondField].textContent 
-    && $fieldList[secondField].textContent == $fieldList[thirdField].textContent
 
-return hasWinner
+    const hasWinner = $fieldList[firstField].textContent != ''
+        && $fieldList[firstField].textContent == $fieldList[secondField].textContent
+        && $fieldList[secondField].textContent == $fieldList[thirdField].textContent
+
+    return hasWinner
 }
 
 function getWinner() {
-    console.log(verifyFields(0, 1, 2))
+    if (verifyFields(0, 1, 2)) {
 
-    //verifyFields()
+        return game.currentMove
+    } else if (verifyFields(3, 4, 5)) {
+        return game.currentMove
+    } else if (verifyFields(6, 7, 8)) {
+        return game.currentMove
+    } else if (verifyFields(0, 3, 6)) {
+        return game.currentMove
+    } else if (verifyFields(1, 4, 7)) {
+        return game.currentMove
+    } else if (verifyFields(2, 5, 8)) {
+        return game.currentMove
+    } else if (verifyFields(0, 4, 8)) {
+        return game.currentMove
+    } else if (verifyFields(2, 4, 6)) {
+        return game.currentMove
+    }
 
-    //if (false){
-       // alert('blee')
-//  }
+    return ''
+
 }
 
 for (let i = 0; i < 9; i++) {
     const $field = getField(i)
 
 
-    $field.addEventListener('click', function () {        
+    $field.addEventListener('click', function () {
         $field.textContent = game.currentMove
+        console.log(getWinner())
         toggleCorrentMove()
+   
+
     })
 }
- getWinner()
