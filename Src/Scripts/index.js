@@ -1,5 +1,10 @@
 const game = {
-    currentMove: 'X'
+    currentMove: 'X',
+
+    players: {
+        score1: 0,
+        score2: 0,
+    },
 
 }
 
@@ -11,10 +16,10 @@ function getField(fieldNumber) {
 
 function toggleCorrentMove() {
 
-    if (game.currentMove == 'X') {
+    if (game.currentMove === 'X') {
         game.currentMove = 'O'
 
-    } else if (game.currentMove == 'O') {
+    } else if (game.currentMove === 'O') {
         game.currentMove = 'X'
     }
 
@@ -24,8 +29,8 @@ function verifyFields(firstField, secondField, thirdField) {
     const $fieldList = document.querySelectorAll('.scenary-field-big')
 
     const hasWinner = $fieldList[firstField].textContent != ''
-        && $fieldList[firstField].textContent == $fieldList[secondField].textContent
-        && $fieldList[secondField].textContent == $fieldList[thirdField].textContent
+        && $fieldList[firstField].textContent === $fieldList[secondField].textContent
+        && $fieldList[secondField].textContent === $fieldList[thirdField].textContent
 
     return hasWinner
 }
@@ -54,15 +59,56 @@ function getWinner() {
 
 }
 
+function addPlayerScore(winner) {
+    if (winner === 'X') {
+        game.players.score1++
+    } else if (winner === 'O') {
+        game.players.score2++
+    }
+
+}
+
+function printPlayerScore() {
+    const [$score1, $score2] = document.querySelectorAll('.score')
+
+    $score1.textContent = game.players.score1
+    $score2.textContent = game.players.score2
+
+}
+
+function resetBoard() {
+    const $fieldList = document.querySelectorAll('.scenary-field-big')
+
+    for (const $field of $fieldList) {
+        $field.textContent = ''
+    }
+}
+
+
+
 for (let i = 0; i < 9; i++) {
     const $field = getField(i)
 
 
     $field.addEventListener('click', function () {
+        if ($field.textContent !== '') return
         $field.textContent = game.currentMove
-        console.log(getWinner())
+
+        const winner = getWinner()
+
+        if (winner !== '') {
+            addPlayerScore(winner)
+
+            printPlayerScore()
+
+           setTimeout(resetBoard, 1000)
+        }
+
+
         toggleCorrentMove()
-   
+
 
     })
 }
+
+
