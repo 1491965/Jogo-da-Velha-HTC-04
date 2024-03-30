@@ -83,8 +83,8 @@
 
  }
 
- .switcher:hover .switcher-ball {
-    right: 4px;
+ .switcher:active .switcher-ball {
+    right: 3px;
  }
 
  .switcher-ball {

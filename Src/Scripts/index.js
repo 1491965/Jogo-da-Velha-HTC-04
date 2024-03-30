@@ -1,6 +1,9 @@
 const game = {
     start: true,
     currentMove: 'X',
+    bot: {
+        active:false,
+    },
     players: {
         score1: 0,
         score2: 0,
@@ -98,6 +101,27 @@ function PrintWinnerName(WinnerName) {
 
 }
 
+function configSwitcher(query, callback) {
+    const $switcher = document.querySelector(query)
+
+    $switcher.addEventListener('click', function(){
+    $switcher.classList.toggle('switcher-active')
+ callback()    
+    })
+}
+
+/*function botMove() {
+
+}
+
+function randomNumber(min, max) {
+    const number = Math.random()
+    
+}*/
+
+
+console.log(Math.random() * 8)
+
 
 
 for (let i = 0; i < 9; i++) {
@@ -132,5 +156,11 @@ for (let i = 0; i < 9; i++) {
 
     })
 }
+configSwitcher('.switcher-bot', function() {
+    game.bot.active = !game.bot.active
+
+    
+})
+
 
 
