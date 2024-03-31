@@ -110,17 +110,80 @@ function configSwitcher(query, callback) {
     })
 }
 
-/*function botMove() {
+function botMove() {
+    const move = randomNumber(8)
 
+    const $field = getField(move)
+
+    const canNotPlay = draw()
+
+    console.log(canNotPlay)
+
+    if(canNotPlay) return
+
+    if ($field.textContent !== '') {
+       return botMove()
+    }
+
+    play($field)
 }
 
-function randomNumber(min, max) {
-    const number = Math.random()
+function draw() {
+    const $fieldList = document.querySelectorAll('.scenary-field-big')
+    let filledFields = 0
+
+    for ( const $field of $fieldList) {
+       if ($field.textContent) filledFields++ 
+    }
+
+    const winner = getWinner()
+
+    if ( filledFields === 9 && !winner) {
+        return true
+    }
+    return false
+
     
-}*/
+}
 
 
-console.log(Math.random() * 8)
+
+
+function randomNumber(max) {
+    const number = Math.floor(Math.random() * max + 1)
+    
+     return number
+}
+
+function play($field) {
+    if ($field.textContent !== '' || game.start === false) return
+    $field.textContent = game.currentMove
+
+    const winner = getWinner()
+
+    if (winner !== '') {
+        addPlayerScore(winner)
+        printPlayerScore()
+       setTimeout(resetBoard, 1000) 
+       game.start = false  
+       const WinnerName = getPlayerName(winner)  
+       PrintWinnerName(WinnerName)       
+       setTimeout(function(){
+        game.start = true
+       }, 1000)    
+                                 
+    }
+
+    const hasDraw = draw() 
+        if (hasDraw) {
+
+            setTimeout(resetBoard, 1000)
+
+        
+    }
+    
+    toggleCorrentMove()
+}
 
 
 
@@ -128,31 +191,9 @@ for (let i = 0; i < 9; i++) {
     const $field = getField(i)
 
     $field.addEventListener('click', function () {
-        if ($field.textContent !== '' || game.start === false) return
-        $field.textContent = game.currentMove
-
-        const winner = getWinner()
-
-        if (winner !== '') {
-            addPlayerScore(winner)
-            printPlayerScore()
-           setTimeout(resetBoard, 1000) 
-           game.start = false  
-           const WinnerName = getPlayerName(winner)  
-           PrintWinnerName(WinnerName)       
-           setTimeout(function(){
-            game.start = true
-           }, 1000)
-
-         
-          
-          
-           
-          
-          
-        }
-
-        toggleCorrentMove()
+      play($field)
+      botMove()
+      
 
     })
 }
