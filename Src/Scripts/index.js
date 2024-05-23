@@ -1,3 +1,5 @@
+const $historyMoveList = document.querySelector('.history-card-list')
+
 const game = {
     start: true,
     currentMove: 'X',
@@ -125,7 +127,7 @@ function botMove() {
        return botMove()
     }
 
-    play($field)
+    play($field, move)
 }
 
 function draw() {
@@ -155,7 +157,7 @@ function randomNumber(max) {
      return number
 }
 
-function play($field) {
+function play($field, position) {
     if ($field.textContent !== '' || game.start === false) return
     $field.textContent = game.currentMove
 
@@ -181,17 +183,48 @@ function play($field) {
 
         
     }
-    
+
+    const currentPlayerName = getPlayerName(game.currentMove)
+
+    createHistoryMoveCard(game.currentMove, currentPlayerName, position)
     toggleCorrentMove()
 }
 
+function createHistoryMoveCard(move, player, position) {
+const positionsLabels = [
+'Primeiro quadrado', 
+'Segundo quadrado',
+'Teceiro quadrado',
+'Quarto quadrado',
+'Quinto quadrado',
+'Sexto quadrado',
+'Sétimo quadrado',
+'Oitavo quadrado',
+'Nono quadrado'
+]
 
+console.log(positionsLabels)
+
+
+    $historyMoveList.innerHTML += `
+    <li class="history-move-card">
+    <span class="move-name">${move}</span>
+    <div class="move-player-wrapper">
+        <span class="move-player-name">${player}</span>
+        <span class="move-label">${positionsLabels[position]}</span>
+    </div>
+</li>
+`  
+    
+
+}
 
 for (let i = 0; i < 9; i++) {
     const $field = getField(i)
 
     $field.addEventListener('click', function () {
-      play($field)
+      play($field, i)
+      if(game.bot.active)
       botMove()
       
 
@@ -199,6 +232,12 @@ for (let i = 0; i < 9; i++) {
 }
 configSwitcher('.switcher-bot', function() {
     game.bot.active = !game.bot.active
+
+    
+})
+
+
+configSwitcher('.switcher-white', function() {  
 
     
 })
